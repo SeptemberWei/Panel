@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WrapLayout">
+        <attr name="wlyHorizontalSpacing" format="dimension" />
+        <attr name="wlyVerticalSpacing" format="dimension" />
+        <attr name="wlyGravity" format="enum">
+            <enum name="top" value="0" />
+            <enum name="center" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="WrapLayout_Layout">
+        <attr name="wlyLayout_gravity" format="enum">
+            <enum name="top" value="0" />
+            <enum name="center" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="SwitchButton">
+        <attr name="sb_shadow_radius" format="reference|dimension" />
+        <attr name="sb_shadow_offset" format="reference|dimension" />
+        <attr name="sb_shadow_color" format="reference|color" />
+        <attr name="sb_uncheck_color" format="reference|color" />
+        <attr name="sb_checked_color" format="reference|color" />
+
+        <attr name="sb_border_width" format="reference|dimension" />
+        <attr name="sb_checkline_color" format="reference|color" />
+        <attr name="sb_checkline_width" format="reference|dimension" />
+        <attr name="sb_uncheckcircle_color" format="reference|color" />
+        <attr name="sb_uncheckcircle_width" format="reference|dimension" />
+        <attr name="sb_uncheckcircle_radius" format="reference|dimension" />
+
+        <attr name="sb_checked" format="reference|boolean" />
+        <attr name="sb_shadow_effect" format="reference|boolean" />
+        <attr name="sb_effect_duration" format="reference|integer" />
+        <attr name="sb_button_color" format="reference|color" />
+        <attr name="sb_show_indicator" format="reference|boolean" />
+        <attr name="sb_background" format="reference|color" />
+        <attr name="sb_enable_effect" format="reference|boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="FotonSimCardRadioButton">
+        <attr name="top_text" format="string" />
+        <attr name="bottom_text" format="string" />
+        <attr name="top_text_color" format="color" />
+        <attr name="bottom_text_color" format="color" />
+        <attr name="top_text_size" format="dimension" />
+        <attr name="bottom_text_size" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="BallView">
+        <attr name="waveWaterLevel" format="float" />
+        <attr name="amplitudeRatio" format="float" />
+        <attr name="waveLengthRatio" format="float" />
+        <attr name="waveShiftRatio" format="float" />
+        <attr name="frontWaveColor" format="color" />
+        <attr name="behindWaveColor" format="color" />
+        <attr name="waveShape" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="square" value="1" />
+        </attr>
+        <attr name="showWave" format="boolean" />
+        <attr name="border_Width" format="integer" />
+        <attr name="border_Color" format="color" />
+        <attr name="text_str" format="string" />
+        <attr name="text_Color" format="color" />
+        <attr name="text_Size" format="dimension" />
+    </declare-styleable>
+
+</resources>

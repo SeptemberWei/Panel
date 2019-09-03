@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Library</string>
+    <string name="notice">温馨提示</string>
+    <string name="confirm">确定</string>
+</resources>
