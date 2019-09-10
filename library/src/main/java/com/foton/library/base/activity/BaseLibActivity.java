@@ -1,5 +1,6 @@
 package com.foton.library.base.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.foton.library.R;
+import com.foton.library.annotation.ContentView;
 import com.foton.library.base.BaseInterface;
 import com.foton.library.base.presenter.AbstractRxPresenter;
 import com.foton.library.utils.ViewUtils;
@@ -49,12 +51,12 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
     }
 
     private void setContentLayout() {
-        if (getLayoutRoot() <= 0 && getLayoutContent() > 0) {
-            setContentView(getLayoutContent());
-        } else if (getLayoutRoot() > 0 && getLayoutContent() > 0) {
+        if (getLayoutRoot() <= 0 && injectLayout() > 0) {
+            setContentView(injectLayout());
+        } else if (getLayoutRoot() > 0 && injectLayout() > 0) {
             setContentView(getLayoutRoot());
             ViewGroup viewGroup = getView(R.id.root);
-            View child = getLayoutInflater().inflate(getLayoutContent(), null);
+            View child = getLayoutInflater().inflate(injectLayout(), null);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(-1, -1);
             if (!coverTitle()) {
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) viewGroup.getLayoutParams();
@@ -64,12 +66,27 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
         }
     }
 
+    private int injectLayout() {
+        Class<? extends Activity> aClass = getClass();
+        ContentView contentView = aClass.getAnnotation(ContentView.class);
+        if (contentView != null) {
+            int layoutId = contentView.value();
+            return layoutId;
+        }
+        return -1;
+    }
+
     @Override
     public void onBaseCreate(Bundle savedInstanceState) {
         fragmentManager = getSupportFragmentManager();
         init();
     }
 
+    /**
+     * if don¡¤t need to show the title bar ,pls return 0;
+     *
+     * @return
+     */
     @Override
     public int getLayoutRoot() {
         return R.layout.activity_root;

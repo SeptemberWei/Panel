@@ -11,12 +11,6 @@ public abstract interface BaseInterface {
      */
     public abstract int getLayoutRoot();
 
-    /**
-     * 主要布局视图，调用setContentLayout方法
-     *
-     * @return
-     */
-    public abstract int getLayoutContent();
 
     /**
      * 获取标题
