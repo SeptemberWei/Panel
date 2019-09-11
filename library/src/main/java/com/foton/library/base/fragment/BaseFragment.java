@@ -20,6 +20,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     private Unbinder mUnbinder;
     public BaseLibActivity baseLibActivity;
     protected boolean isDataLoadComplete;
+    protected boolean isCreate;
 
     @Nullable
     @Override
@@ -37,6 +38,13 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        lazyLoad();
+        isCreate = true;
+    }
+
+    @Override
     public void onBaseCreate(Bundle savedInstanceState) {
         init();
     }
@@ -44,7 +52,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !isDataLoadComplete) {
+        if (isVisibleToUser && !isDataLoadComplete && isCreate) {
             lazyLoad();
         }
     }
@@ -70,7 +78,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     protected abstract void loadData();
 
     /**
-     * load data from user £¨like pull to refresh£©
+     * load data from user (like pull to refresh)
      */
     public void loadDataFromUser() {
         lazyLoad();
@@ -82,7 +90,9 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
         onHidden(hidden);
     }
 
-    public abstract void onHidden(boolean hidden);
+    public void onHidden(boolean hidden) {
+
+    }
 
     @Override
     public void onDestroyView() {
