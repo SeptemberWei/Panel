@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.foton.library.R;
 import com.foton.library.annotation.ContentView;
+import com.foton.library.annotation.TitleType;
 import com.foton.library.base.BaseInterface;
 import com.foton.library.base.presenter.AbstractRxPresenter;
 import com.foton.library.utils.ViewUtils;
@@ -89,6 +90,18 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
      */
     @Override
     public int getLayoutRoot() {
+        Class<? extends Activity> aClass = getClass();
+        ContentView contentView = aClass.getAnnotation(ContentView.class);
+        if (contentView != null) {
+            int titleLayout = contentView.titleLayout();
+            if (titleLayout != -1) {
+                return titleLayout;
+            }
+            TitleType titleType = contentView.titleType();
+            if (titleType == TitleType.None) {
+                return 0;
+            }
+        }
         return R.layout.activity_root;
     }
 
