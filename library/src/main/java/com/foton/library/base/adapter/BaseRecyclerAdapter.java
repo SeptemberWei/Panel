@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.foton.library.annotation.ContentView;
+
 import java.util.Collection;
 import java.util.List;
 
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    protected Context mActivity;
+    protected Context mContext;
 
     protected Fragment mFragment;
 
@@ -27,17 +29,17 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     private OnItemClickListener onItemClickLitener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public BaseRecyclerAdapter(Context mActivity, List<T> dataSet) {
-        this.mActivity = mActivity;
+    public BaseRecyclerAdapter(Context context, List<T> dataSet) {
+        this.mContext = context;
         this.mDataSet = dataSet;
-        this.mLayoutInflater = LayoutInflater.from(mActivity);
+        this.mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-    public BaseRecyclerAdapter(Fragment mFragment, List<T> dataSet) {
-        this.mFragment = mFragment;
-        this.mActivity = mFragment.getActivity();
+    public BaseRecyclerAdapter(Fragment fragment, List<T> dataSet) {
+        this.mFragment = fragment;
+        this.mContext = fragment.getActivity();
         this.mDataSet = dataSet;
-        this.mLayoutInflater = LayoutInflater.from(mActivity);
+        this.mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     public T getItem(int position) {
@@ -70,7 +72,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == VIEW_EMPTY) {
-            View viewEmpty = LayoutInflater.from(mActivity).inflate(getLayoutResource(viewType), viewGroup, false);
+            View viewEmpty = LayoutInflater.from(mContext).inflate(getLayoutResource(viewType), viewGroup, false);
             return new BaseViewHolder(viewType, viewEmpty, viewGroup);
         }
         View convertView = mLayoutInflater.inflate(getLayoutResource(viewType), viewGroup, false);
@@ -110,7 +112,15 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
      * @param viewType
      * @return
      */
-    protected abstract int getLayoutResource(int viewType);
+    protected int getLayoutResource(int viewType) {
+        Class<? extends RecyclerView.Adapter> aClass = getClass();
+        ContentView contentView = aClass.getAnnotation(ContentView.class);
+        if (contentView != null) {
+            int layoutId = contentView.value();
+            return layoutId;
+        }
+        return -1;
+    }
 
     /**
      * 创建ViewHolder

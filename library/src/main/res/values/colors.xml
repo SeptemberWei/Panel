@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3D5EF1</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="color_4_000000">#0A000000</color>
     <color name="color_90_ffffff">#E6ffffff</color>
     <color name="trans_half">#80000000</color>
     <color name="switch_btn_gray">#26FFFFFF</color>

@@ -21,6 +21,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     public BaseLibActivity baseLibActivity;
     protected boolean isDataLoadComplete;
     protected boolean isCreate;
+    protected boolean isVisibleToUser;
 
     @Nullable
     @Override
@@ -40,7 +41,9 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        lazyLoad();
+        if (isVisibleToUser) {
+            lazyLoad();
+        }
         isCreate = true;
     }
 
@@ -52,6 +55,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        this.isVisibleToUser = isVisibleToUser;
         if (isVisibleToUser && !isDataLoadComplete && isCreate) {
             lazyLoad();
         }
