@@ -19,7 +19,7 @@ public @interface ContentView {
     int noneValue() default -1;
 
     /**
-     * 0:return default title,-1:return none title
+     * 0£ºreturn default title£¬-1£ºreturn none title
      *
      * @return
      */

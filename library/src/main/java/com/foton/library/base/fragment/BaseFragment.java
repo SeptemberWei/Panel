@@ -82,7 +82,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     protected abstract void loadData();
 
     /**
-     * load data from user £¨like pull to refresh£©
+     * load data from user (like pull to refresh)
      */
     public void loadDataFromUser() {
         lazyLoad();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 public abstract interface BaseInterface {
     public abstract boolean coverTitle();
+
     /**
      * 根布局视图，若为0调用setContentView方法
      *
