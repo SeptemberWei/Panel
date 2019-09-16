@@ -57,7 +57,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     @Override
     public int getItemCount() {
         return (null == mDataSet || mDataSet.size() == 0) ? 1 : mDataSet.size();
-//        return mDataSet.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickLitener) {
@@ -68,7 +67,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == VIEW_EMPTY) {
@@ -76,7 +74,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
             return new BaseViewHolder(viewType, viewEmpty, viewGroup);
         }
         View convertView = mLayoutInflater.inflate(getLayoutResource(viewType), viewGroup, false);
-        return onCreateViewHolder(viewType, convertView, viewGroup);
+        return new BaseViewHolder(viewType, convertView, viewGroup);
     }
 
     @Override
@@ -116,21 +114,26 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         Class<? extends RecyclerView.Adapter> aClass = getClass();
         ContentView contentView = aClass.getAnnotation(ContentView.class);
         if (contentView != null) {
-            int layoutId = contentView.value();
+            int layoutId;
+            if (viewType == VIEW_EMPTY) {
+                layoutId = contentView.noneValue();
+            } else {
+                layoutId = contentView.value();
+            }
             return layoutId;
         }
         return -1;
     }
-
-    /**
-     * 创建ViewHolder
-     *
-     * @param viewType
-     * @param convertView
-     * @param parent
-     * @return
-     */
-    protected abstract BaseViewHolder onCreateViewHolder(int viewType, View convertView, ViewGroup parent);
+//
+//    /**
+//     * 创建ViewHolder
+//     *
+//     * @param viewType
+//     * @param convertView
+//     * @param parent
+//     * @return
+//     */
+//    protected abstract BaseViewHolder onCreateViewHolder(int viewType, View convertView, ViewGroup parent);
 
 
     /**

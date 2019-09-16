@@ -84,7 +84,7 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
     }
 
     /**
-     * if don¡¤t need to show the title bar ,pls return 0;
+     * if don·t need to show the title bar ,pls return 0;
      *
      * @return
      */

@@ -14,7 +14,12 @@ public @interface ContentView {
     int value();
 
     /**
-     * 0£ºreturn default title£¬-1£ºreturn none title
+     * @return none layout id
+     */
+    int noneValue() default -1;
+
+    /**
+     * 0:return default title,-1:return none title
      *
      * @return
      */
