@@ -3,25 +3,17 @@ package com.foton.library.net.response;
 
 public class Response<T> {
 
-    private boolean status; // 返回的code
-    private T data; // 具体的数据结果
+    //    private boolean status; // 返回的code
+    private T result; // 具体的数据结果
     private String message; // message 可用来返回接口的说明
-    private int returnCode;
+    private int code;
 
-    public boolean getStatus() {
-        return status;
+    public T getResult() {
+        return result;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
+    public void setResult(T result) {
+        this.result = result;
     }
 
     public String getMessage() {
@@ -32,11 +24,11 @@ public class Response<T> {
         this.message = message;
     }
 
-    public int getReturnCode() {
-        return returnCode;
+    public int getCode() {
+        return code;
     }
 
-    public void setReturnCode(int returnCode) {
-        this.returnCode = returnCode;
+    public void setCode(int code) {
+        this.code = code;
     }
 }

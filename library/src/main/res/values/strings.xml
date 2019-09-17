@@ -2,4 +2,8 @@
     <string name="app_name">Library</string>
     <string name="notice">温馨提示</string>
     <string name="confirm">确定</string>
+    <string name="error_parser">数据解析异常</string>
+    <string name="error_net">网络异常</string>
+    <string name="error_unknow">未知错误</string>
+    <string name="title_notice">温馨提示</string>
 </resources>

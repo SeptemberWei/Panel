@@ -15,7 +15,6 @@ import retrofit2.Retrofit;
 
 public final class GsonConverterFactory extends Converter.Factory {
 
-
     public static GsonConverterFactory create(Gson gson) {
         if (gson == null) throw new NullPointerException("gson == null");
         return new GsonConverterFactory(gson);

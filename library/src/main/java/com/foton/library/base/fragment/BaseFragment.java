@@ -11,17 +11,19 @@ import android.view.ViewGroup;
 import com.foton.library.annotation.ContentView;
 import com.foton.library.base.BaseInterface;
 import com.foton.library.base.activity.BaseLibActivity;
+import com.foton.library.base.presenter.AbstractRxPresenter;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends RxFragment implements BaseInterface {
+public abstract class BaseFragment<P extends AbstractRxPresenter> extends RxFragment implements BaseInterface {
     private Unbinder mUnbinder;
     public BaseLibActivity baseLibActivity;
     protected boolean isDataLoadComplete;
     protected boolean isCreate;
     protected boolean isVisibleToUser;
+    public P mPresenter;
 
     @Nullable
     @Override
@@ -49,6 +51,10 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
 
     @Override
     public void onBaseCreate(Bundle savedInstanceState) {
+        mPresenter = createPresenter();
+        if (mPresenter != null) {
+            mPresenter.setProvider(this);
+        }
         init();
     }
 
@@ -71,6 +77,10 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
         return -1;
     }
 
+    protected P createPresenter() {
+        return null;
+    }
+
     /**
      * lazy load
      */
@@ -82,7 +92,7 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     protected abstract void loadData();
 
     /**
-     * load data from user (like pull to refresh)
+     * load data from user £¨like pull to refresh£©
      */
     public void loadDataFromUser() {
         lazyLoad();
@@ -102,6 +112,9 @@ public abstract class BaseFragment extends RxFragment implements BaseInterface {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        if (mPresenter != null) {
+            mPresenter.stop();
+        }
     }
 
     @Override

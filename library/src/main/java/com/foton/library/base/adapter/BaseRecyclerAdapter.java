@@ -28,6 +28,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
 
     private OnItemClickListener onItemClickLitener;
     private OnItemLongClickListener onItemLongClickListener;
+    private OnNoneViewClickListener onNoneViewClickListener;
 
     public BaseRecyclerAdapter(Context context, List<T> dataSet) {
         this.mContext = context;
@@ -67,6 +68,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    public void setOnNoneViewClickListener(OnNoneViewClickListener onNoneViewClickListener) {
+        this.onNoneViewClickListener = onNoneViewClickListener;
+    }
+
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == VIEW_EMPTY) {
@@ -81,24 +86,20 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     public void onBindViewHolder(@NonNull final BaseViewHolder baseViewHolder, final int i) {
         if (baseViewHolder.getViewType() == VIEW_ITEM) {
             if (onItemClickLitener != null) {
-                baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onItemClickLitener.onItemClick(baseViewHolder.itemView, i);
-                    }
-                });
+                baseViewHolder.itemView.setOnClickListener(v -> onItemClickLitener.onItemClick(baseViewHolder.itemView, i));
             }
 
             if (onItemLongClickListener != null) {
-                baseViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        onItemLongClickListener.onItemLongClick(baseViewHolder.itemView, i);
-                        return false;
-                    }
+                baseViewHolder.itemView.setOnLongClickListener(v -> {
+                    onItemLongClickListener.onItemLongClick(baseViewHolder.itemView, i);
+                    return false;
                 });
             }
             onBaseBindViewHolder(baseViewHolder, i);
+        } else {
+            if (onNoneViewClickListener != null) {
+                baseViewHolder.itemView.setOnClickListener(v -> onNoneViewClickListener.onNoneViewClick(baseViewHolder.itemView));
+            }
         }
     }
 
@@ -239,5 +240,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
      */
     public interface OnItemLongClickListener {
         void onItemLongClick(View view, int position);
+    }
+
+    /**
+     * 空视图点击回调接口
+     */
+    public interface OnNoneViewClickListener {
+        void onNoneViewClick(View view);
     }
 }

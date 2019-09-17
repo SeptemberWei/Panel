@@ -6,9 +6,15 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.foton.library.R;
+import com.foton.library.net.Exception.ApiException;
+import com.foton.library.ui.view.DialogMessage;
 import com.foton.library.ui.view.LoadingDialog;
 
 import java.lang.ref.WeakReference;
+
+import static com.foton.library.net.Exception.CustomException.NETWORK_ERROR;
+import static com.foton.library.net.Exception.CustomException.PARSE_ERROR;
+import static com.foton.library.net.Exception.CustomException.UNKNOWN;
 
 public class ProgressDialogHandler extends Handler {
     public static final int SHOW_PROGRESS_DIALOG = 1;
@@ -70,11 +76,25 @@ public class ProgressDialogHandler extends Handler {
     }
 
     private void showError(Object object) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext.get());
-        builder.setTitle(mContext.get().getString(R.string.notice));
-        builder.setMessage(object.toString());
-        builder.setNegativeButton(mContext.get().getString(R.string.confirm), null);
-        builder.show();
+        if (object instanceof ApiException) {
+            Context context = mContext.get();
+            ApiException exception = (ApiException) object;
+            String errorMessage = exception.getDisplayMessage();
+            switch (exception.getCode()) {
+                case PARSE_ERROR:
+                    errorMessage = context.getString(R.string.error_parser);
+                    break;
+                case NETWORK_ERROR:
+                    errorMessage = context.getString(R.string.error_net);
+                    break;
+                case UNKNOWN:
+                    errorMessage = context.getString(R.string.error_unknow);
+                    break;
+            }
+            DialogMessage dialogMessage = new DialogMessage(context, R.style.dialog);
+            dialogMessage.show();
+            dialogMessage.setContent(errorMessage);
+        }
     }
 
 }

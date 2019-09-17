@@ -50,14 +50,20 @@ public class ProgressSubscriber<T> implements ProgressListener, Observer<T> {
     @Override
     public void onNext(T value) {
         dismiss();
-        subscriberOnNextListener.onNext(value);
+        if (subscriberOnNextListener != null) {
+            subscriberOnNextListener.onNext(value);
+        }
     }
 
     @Override
     public void onError(Throwable e) {
-        ApiException ex
-                = (ApiException) e;
-        mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_ERROR_DIALOG, ex.getDisplayMessage()).sendToTarget();
+        if (e != null) {
+            ApiException ex = (ApiException) e;
+            if (mProgressDialogHandler != null) {
+                mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_ERROR_DIALOG, ex).sendToTarget();
+            }
+        }
+
     }
 
     @Override

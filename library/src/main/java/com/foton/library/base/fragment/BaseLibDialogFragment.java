@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.foton.library.annotation.ContentView;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -21,7 +24,7 @@ public abstract class BaseLibDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutContent(), container, false);
+        View view = inflater.inflate(injectLayout(), container, false);
         mUnbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -79,7 +82,15 @@ public abstract class BaseLibDialogFragment extends DialogFragment {
         return FLAG;
     }
 
-    public abstract int getLayoutContent();
+    public int injectLayout() {
+        Class<? extends Fragment> aClass = getClass();
+        ContentView contentView = aClass.getAnnotation(ContentView.class);
+        if (contentView != null) {
+            int layoutId = contentView.value();
+            return layoutId;
+        }
+        return -1;
+    }
 
     public abstract void init();
 
