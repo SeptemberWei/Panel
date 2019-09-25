@@ -47,8 +47,10 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
         onBaseCreate(savedInstanceState);
     }
 
-    protected P createPresenter() {
-        return null;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        lazyLoad();
     }
 
     private void setContentLayout() {
@@ -84,7 +86,7 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
     }
 
     /**
-     * if don·t need to show the title bar ,pls return 0;
+     * if don`t need to show the title bar ,pls return 0;
      *
      * @return
      */
@@ -180,4 +182,19 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
         supportFinishAfterTransition();
     }
 
+    /**
+     * create presenter for current context
+     *
+     * @return
+     */
+    protected P createPresenter() {
+        return null;
+    }
+
+    /**
+     * load data from service
+     */
+    protected void lazyLoad() {
+
+    }
 }
