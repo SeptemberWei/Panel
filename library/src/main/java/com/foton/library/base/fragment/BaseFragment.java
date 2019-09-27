@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.foton.library.annotation.ContentView;
+import com.foton.library.annotation.PresentInstance;
 import com.foton.library.base.BaseInterface;
 import com.foton.library.base.activity.BaseLibActivity;
 import com.foton.library.base.presenter.AbstractRxPresenter;
@@ -78,6 +79,19 @@ public abstract class BaseFragment<P extends AbstractRxPresenter> extends RxFrag
     }
 
     protected P createPresenter() {
+        Class<? extends Fragment> aClass = getClass();
+        PresentInstance presentInstance = aClass.getAnnotation(PresentInstance.class);
+        if (presentInstance != null) {
+            Class<P> claz = presentInstance.value();
+            try {
+                P instance = claz.newInstance();
+                return instance;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
     }
 
@@ -92,7 +106,7 @@ public abstract class BaseFragment<P extends AbstractRxPresenter> extends RxFrag
     protected abstract void loadData();
 
     /**
-     * load data from user £¨like pull to refresh£©
+     * load data from user (like pull to refresh)
      */
     public void loadDataFromUser() {
         lazyLoad();

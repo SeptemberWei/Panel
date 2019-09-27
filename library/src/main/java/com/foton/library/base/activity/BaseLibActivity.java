@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.foton.library.R;
 import com.foton.library.annotation.ContentView;
+import com.foton.library.annotation.PresentInstance;
+import com.foton.library.annotation.Title;
 import com.foton.library.annotation.TitleType;
 import com.foton.library.base.BaseInterface;
 import com.foton.library.base.presenter.AbstractRxPresenter;
@@ -82,6 +84,7 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
     @Override
     public void onBaseCreate(Bundle savedInstanceState) {
         fragmentManager = getSupportFragmentManager();
+        setPageTitle();
         init();
     }
 
@@ -117,14 +120,30 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
         return false;
     }
 
-    public void setTitle(@StringRes int strRes) {
+    private void setPageTitle() {
+        try {
+            Class<? extends Activity> aClass = getClass();
+            Title annotationTitle = aClass.getAnnotation(Title.class);
+            if (annotationTitle != null) {
+                int value = annotationTitle.value();
+                TextView textView = getView(R.id.titleTv);
+                if (null != textView) {
+                    textView.setText(value);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    protected void setPageTitle(@StringRes int strRes) {
         TextView textView = getView(R.id.titleTv);
         if (null != textView) {
             textView.setText(strRes);
         }
     }
 
-    public void setTitle(String str) {
+    protected void setPageTitle(String str) {
         TextView textView = getView(R.id.titleTv);
         if (null != textView) {
             textView.setText(str);
@@ -188,6 +207,19 @@ public abstract class BaseLibActivity<P extends AbstractRxPresenter> extends RxA
      * @return
      */
     protected P createPresenter() {
+        Class<? extends Activity> aClass = getClass();
+        PresentInstance presentInstance = aClass.getAnnotation(PresentInstance.class);
+        if (presentInstance != null) {
+            Class<P> claz = presentInstance.value();
+            try {
+                P instance = claz.newInstance();
+                return instance;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
     }
 
